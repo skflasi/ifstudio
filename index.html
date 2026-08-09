@@ -1,6 +1,36 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>IF Studio</title>
-<!-- Redirect root to the actual HTML file -->
-<meta http-equiv="refresh" content="0;url=剧本编辑器.html">
-<p>如果没有自动跳转，<a href="剧本编辑器.html">点此打开剧本编辑器</a></p>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IF Studio — 首页</title>
+<style>
+  html,body{height:100%;margin:0}
+  .frame-wrap{height:100%;display:flex;flex-direction:column}
+  header{height:56px;background:#0f1117;color:#e6e9f0;display:flex;align-items:center;padding:0 16px;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header .title{font-weight:700;margin-right:12px}
+  .frame-container{flex:1;display:block;position:relative}
+  iframe{width:100%;height:100%;border:0}
+  .fallback{position:absolute;inset:12px;border-radius:8px;background:rgba(0,0,0,0.6);color:#fff;padding:12px;display:none}
+  @media (prefers-reduced-motion:reduce){ iframe{transition:none} }
+</style>
+<body>
+<div class="frame-wrap">
+  <header>
+    <div class="title">📖 IF Studio</div>
+    <div style="color:#9aa3bf;font-size:13px">已将编辑器内嵌为首页 — 若不能加载，请使用下面链接或点击“打开编辑器”</div>
+    <div style="margin-left:auto"><a href="/剧本编辑器.html" style="color:var(--accent);text-decoration:underline">打开编辑器</a></div>
+  </header>
+  <div class="frame-container">
+    <!-- Embedded editor (full-window) -->
+    <iframe src="/剧本编辑器.html" title="IF Studio 剧本编辑器" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
+    <div class="fallback" id="fallback">如果编辑器未能加载，<a href="/剧本编辑器.html" style="color:#9f7cff">点击此处以在新窗口打开</a>，或在仓库中直接下载文件并本地打开。</div>
+  </div>
+</div>
+<script>
+// Show fallback message if iframe doesn't load after a timeout (network blocked / raw rendering disabled)
+setTimeout(()=>{
+  const fb = document.getElementById('fallback');
+  // if iframe has not reported ready via postMessage within 3s, show fallback
+  fb.style.display = 'block';
+},3000);
+</script>
+</body>
