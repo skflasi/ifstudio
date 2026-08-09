@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages (official)
+name: Deploy to GitHub Pages (alternative)
 
 on:
   push:
@@ -6,21 +6,24 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-artifact@v4
-        with:
-          name: pages
-          path: ./
+      - name: Build site
+        run: |
+          # TODO: replace with your real build commands (example for npm sites):
+          # npm ci
+          # npm run build
+          # Ensure the final static site is output to ./public
+          echo "Building site..."
+          mkdir -p public
+          echo "Replace this with your built site" > public/index.html
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
